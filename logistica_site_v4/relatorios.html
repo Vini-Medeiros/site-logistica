@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - Sistema de Logística</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navbar para Mobile (será adicionada via JS se necessário) -->
+    
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar / Menu Lateral -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <h3 class="text-white"><i class="fas fa-truck me-2"></i>LogiTech</h3>
+                        <p class="text-white-50">Sistema Logístico</p>
+                    </div>
+                    <hr class="text-white-50">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="dashboard.html">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="veiculos.html">
+                                <i class="fas fa-truck"></i> Veículos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="rotas.html">
+                                <i class="fas fa-route"></i> Rotas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="entregas.html">
+                                <i class="fas fa-box"></i> Entregas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="motoristas.html">
+                                <i class="fas fa-user"></i> Motoristas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="relatorios.html">
+                                <i class="fas fa-chart-bar"></i> Relatórios
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="configuracoes.html">
+                                <i class="fas fa-cog"></i> Configurações
+                            </a>
+                        </li>
+                    </ul>
+                    <hr class="text-white-50">
+                    <div class="px-3 mt-4">
+                        <a href="index.html" class="btn btn-danger w-100" id="logoutButton">
+                            <i class="fas fa-sign-out-alt me-2"></i> Sair
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Conteúdo Principal -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Relatórios</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="btnExportarPDF">
+                                <i class="fas fa-file-pdf me-1"></i> Exportar PDF
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="btnExportarExcel">
+                                <i class="fas fa-file-excel me-1"></i> Exportar Excel
+                            </button>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fas fa-calendar me-1"></i> Período
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item periodo-filtro" href="#" data-periodo="hoje">Hoje</a></li>
+                            <li><a class="dropdown-item periodo-filtro" href="#" data-periodo="semana">Esta semana</a></li>
+                            <li><a class="dropdown-item periodo-filtro" href="#" data-periodo="mes">Este mês</a></li>
+                            <li><a class="dropdown-item periodo-filtro" href="#" data-periodo="trimestre">Último trimestre</a></li>
+                            <li><a class="dropdown-item periodo-filtro" href="#" data-periodo="ano">Este ano</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalPeriodoPersonalizado">Período personalizado</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Filtros de Relatório -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title">Filtros</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="formFiltrosRelatorio">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="tipoRelatorio" class="form-label">Tipo de Relatório</label>
+                                    <select class="form-select" id="tipoRelatorio">
+                                        <option value="entregas">Entregas</option>
+                                        <option value="veiculos">Veículos</option>
+                                        <option value="rotas">Rotas</option>
+                                        <option value="motoristas">Motoristas</option>
+                                        <option value="financeiro">Financeiro</option>
+                                        <option value="desempenho">Desempenho</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="formatoRelatorio" class="form-label">Formato</label>
+                                    <select class="form-select" id="formatoRelatorio">
+                                        <option value="tabela">Tabela</option>
+                                        <option value="grafico">Gráfico</option>
+                                        <option value="ambos">Ambos</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="agruparPor" class="form-label">Agrupar por</label>
+                                    <select class="form-select" id="agruparPor">
+                                        <option value="dia">Dia</option>
+                                        <option value="semana">Semana</option>
+                                        <option value="mes">Mês</option>
+                                        <option value="trimestre">Trimestre</option>
+                                        <option value="ano">Ano</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row filtros-dinamicos" id="filtrosEntregas">
+                                <div class="col-md-4 mb-3">
+                                    <label for="statusEntrega" class="form-label">Status</label>
+                                    <select class="form-select" id="statusEntrega">
+                                        <option value="">Todos</option>
+                                        <option value="Aguardando coleta">Aguardando coleta</option>
+                                        <option value="Em trânsito">Em trânsito</option>
+                                        <option value="Entregue">Entregue</option>
+                                        <option value="Devolvido">Devolvido</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="regiaoEntrega" class="form-label">Região</label>
+                                    <select class="form-select" id="regiaoEntrega">
+                                        <option value="">Todas</option>
+                                        <option value="Norte">Norte</option>
+                                        <option value="Nordeste">Nordeste</option>
+                                        <option value="Centro-Oeste">Centro-Oeste</option>
+                                        <option value="Sudeste">Sudeste</option>
+                                        <option value="Sul">Sul</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="prioridadeEntrega" class="form-label">Prioridade</label>
+                                    <select class="form-select" id="prioridadeEntrega">
+                                        <option value="">Todas</option>
+                                        <option value="1">Alta</option>
+                                        <option value="2">Normal</option>
+                                        <option value="3">Baixa</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <button type="button" class="btn btn-secondary" id="btnLimparFiltros">Limpar</button>
+                                <button type="button" class="btn btn-primary" id="btnGerarRelatorio">Gerar Relatório</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Área de Visualização do Relatório -->
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title" id="tituloRelatorio">Relatório de Entregas</h5>
+                        <span class="badge bg-primary" id="periodoRelatorio">Período: Este mês</span>
+                    </div>
+                    <div class="card-body">
+                        <!-- Área de Gráficos -->
+                        <div class="mb-4" id="areaGraficos">
+                            <div class="row">
+                                <div class="col-lg-6 mb-4">
+                                    <canvas id="graficoRelatorio1" height="300"></canvas>
+                                </div>
+                                <div class="col-lg-6 mb-4">
+                                    <canvas id="graficoRelatorio2" height="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Área de Tabela -->
+                        <div class="table-responsive" id="areaTabelaRelatorio">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Código</th>
+                                        <th>Destinatário</th>
+                                        <th>Origem</th>
+                                        <th>Destino</th>
+                                        <th>Status</th>
+                                        <th>Veículo</th>
+                                        <th>Motorista</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dadosRelatorio">
+                                    <!-- Dados serão carregados via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Resumo do Relatório -->
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Resumo</h5>
+                                        <div class="row">
+                                            <div class="col-md-3 mb-3">
+                                                <div class="card-text">
+                                                    <strong>Total de registros:</strong> <span id="totalRegistros">0</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <div class="card-text">
+                                                    <strong>Média por dia:</strong> <span id="mediaDia">0</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <div class="card-text">
+                                                    <strong>Valor total:</strong> <span id="valorTotal">R$ 0,00</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <div class="card-text">
+                                                    <strong>Taxa de sucesso:</strong> <span id="taxaSucesso">0%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal de Período Personalizado -->
+    <div class="modal fade" id="modalPeriodoPersonalizado" tabindex="-1" aria-labelledby="modalPeriodoPersonalizadoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalPeriodoPersonalizadoLabel">Período Personalizado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formPeriodoPersonalizado">
+                        <div class="mb-3">
+                            <label for="dataInicio" class="form-label">Data de Início</label>
+                            <input type="date" class="form-control" id="dataInicio" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dataFim" class="form-label">Data de Fim</label>
+                            <input type="date" class="form-control" id="dataFim" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnAplicarPeriodo">Aplicar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript Personalizado -->
+    <script src="js/main.js"></script>
+    <script src="js/relatorios.js"></script>
+</body>
+</html>

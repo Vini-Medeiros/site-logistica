@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entregas - Sistema de Logística</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar / Menu Lateral -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <h3 class="text-white"><i class="fas fa-truck me-2"></i>LogiTech</h3>
+                        <p class="text-white-50">Sistema Logístico</p>
+                    </div>
+                    <hr class="text-white-50">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="dashboard.html">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="veiculos.html">
+                                <i class="fas fa-truck"></i> Veículos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="rotas.html">
+                                <i class="fas fa-route"></i> Rotas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="entregas.html">
+                                <i class="fas fa-box"></i> Entregas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="motoristas.html">
+                                <i class="fas fa-user"></i> Motoristas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="relatorios.html">
+                                <i class="fas fa-chart-bar"></i> Relatórios
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="configuracoes.html">
+                                <i class="fas fa-cog"></i> Configurações
+                            </a>
+                        </li>
+                    </ul>
+                    <hr class="text-white-50">
+                    <div class="px-3 mt-4">
+                        <a href="index.html" class="btn btn-danger w-100">
+                            <i class="fas fa-sign-out-alt me-2"></i> Sair
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Conteúdo Principal -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Gerenciamento de Entregas</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNovaEntrega">
+                            <i class="fas fa-plus me-1"></i> Nova Entrega
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Filtros</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <label for="filtroStatus" class="form-label">Status</label>
+                                        <select class="form-select" id="filtroStatus">
+                                            <option value="">Todos</option>
+                                            <option value="Aguardando coleta">Aguardando coleta</option>
+                                            <option value="Em trânsito">Em trânsito</option>
+                                            <option value="Entregue">Entregue</option>
+                                            <option value="Devolvido">Devolvido</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="filtroRota" class="form-label">Rota</label>
+                                        <select class="form-select" id="filtroRota">
+                                            <option value="">Todas</option>
+                                            <!-- Opções serão carregadas via JavaScript -->
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="filtroBusca" class="form-label">Busca</label>
+                                        <input type="text" class="form-control" id="filtroBusca" placeholder="Código ou destinatário">
+                                    </div>
+                                    <div class="col-md-3 d-flex align-items-end">
+                                        <button class="btn btn-primary w-100" id="btnFiltrar">
+                                            <i class="fas fa-search me-1"></i> Filtrar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabela de Entregas -->
+                <div class="table-container bg-white p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Código</th>
+                                    <th>Descrição</th>
+                                    <th>Destinatário</th>
+                                    <th>Cidade/UF</th>
+                                    <th>Data Prevista</th>
+                                    <th>Rota</th>
+                                    <th>Prioridade</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaEntregas">
+                                <!-- Dados serão carregados via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Paginação -->
+                <nav aria-label="Navegação de página" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Próximo</a>
+                        </li>
+                    </ul>
+                </nav>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal Nova Entrega -->
+    <div class="modal fade" id="modalNovaEntrega" tabindex="-1" aria-labelledby="modalNovaEntregaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalNovaEntregaLabel">Cadastrar Nova Entrega</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formNovaEntrega">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="codigoRastreamento" class="form-label">Código de Rastreamento</label>
+                                <input type="text" class="form-control" id="codigoRastreamento" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="rotaEntrega" class="form-label">Rota</label>
+                                <select class="form-select" id="rotaEntrega">
+                                    <option value="">Selecione...</option>
+                                    <!-- Opções serão carregadas via JavaScript -->
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="descricaoEntrega" class="form-label">Descrição</label>
+                                <input type="text" class="form-control" id="descricaoEntrega" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="destinatario" class="form-label">Destinatário</label>
+                                <input type="text" class="form-control" id="destinatario" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="telefoneContato" class="form-label">Telefone de Contato</label>
+                                <input type="text" class="form-control" id="telefoneContato">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="enderecoEntrega" class="form-label">Endereço de Entrega</label>
+                                <input type="text" class="form-control" id="enderecoEntrega" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="cidadeEntrega" class="form-label">Cidade</label>
+                                <input type="text" class="form-control" id="cidadeEntrega" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="estadoEntrega" class="form-label">Estado</label>
+                                <select class="form-select" id="estadoEntrega" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="AC">AC</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AP">AP</option>
+                                    <option value="AM">AM</option>
+                                    <option value="BA">BA</option>
+                                    <option value="CE">CE</option>
+                                    <option value="DF">DF</option>
+                                    <option value="ES">ES</option>
+                                    <option value="GO">GO</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MT">MT</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MG">MG</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PB">PB</option>
+                                    <option value="PR">PR</option>
+                                    <option value="PE">PE</option>
+                                    <option value="PI">PI</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="RN">RN</option>
+                                    <option value="RS">RS</option>
+                                    <option value="RO">RO</option>
+                                    <option value="RR">RR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SP">SP</option>
+                                    <option value="SE">SE</option>
+                                    <option value="TO">TO</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="cepEntrega" class="form-label">CEP</label>
+                                <input type="text" class="form-control" id="cepEntrega" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="pesoEntrega" class="form-label">Peso (kg)</label>
+                                <input type="number" step="0.1" class="form-control" id="pesoEntrega">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="volumeEntrega" class="form-label">Volume (m³)</label>
+                                <input type="number" step="0.01" class="form-control" id="volumeEntrega">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="prioridadeEntrega" class="form-label">Prioridade</label>
+                                <select class="form-select" id="prioridadeEntrega" required>
+                                    <option value="1">Alta</option>
+                                    <option value="2" selected>Normal</option>
+                                    <option value="3">Baixa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="dataPrevista" class="form-label">Data Prevista</label>
+                                <input type="date" class="form-control" id="dataPrevista">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="statusEntrega" class="form-label">Status</label>
+                                <select class="form-select" id="statusEntrega" required>
+                                    <option value="Aguardando coleta">Aguardando coleta</option>
+                                    <option value="Em trânsito">Em trânsito</option>
+                                    <option value="Entregue">Entregue</option>
+                                    <option value="Devolvido">Devolvido</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="observacoesEntrega" class="form-label">Observações</label>
+                                <textarea class="form-control" id="observacoesEntrega" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnSalvarEntrega">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript Personalizado -->
+    <script src="js/main.js"></script>
+    <script src="js/entregas.js"></script>
+</body>
+</html>
