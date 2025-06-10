@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motoristas - Sistema de Logística</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar / Menu Lateral -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <h3 class="text-white"><i class="fas fa-truck me-2"></i>LogiTech</h3>
+                        <p class="text-white-50">Sistema Logístico</p>
+                    </div>
+                    <hr class="text-white-50">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="dashboard.html">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="veiculos.html">
+                                <i class="fas fa-truck"></i> Veículos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="rotas.html">
+                                <i class="fas fa-route"></i> Rotas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="entregas.html">
+                                <i class="fas fa-box"></i> Entregas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="motoristas.html">
+                                <i class="fas fa-user"></i> Motoristas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="relatorios.html">
+                                <i class="fas fa-chart-bar"></i> Relatórios
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="configuracoes.html">
+                                <i class="fas fa-cog"></i> Configurações
+                            </a>
+                        </li>
+                    </ul>
+                    <hr class="text-white-50">
+                    <div class="px-3 mt-4">
+                        <a href="index.html" class="btn btn-danger w-100">
+                            <i class="fas fa-sign-out-alt me-2"></i> Sair
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Conteúdo Principal -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Gerenciamento de Motoristas</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNovoMotorista">
+                            <i class="fas fa-plus me-1"></i> Novo Motorista
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Filtros</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <label for="filtroStatus" class="form-label">Status</label>
+                                        <select class="form-select" id="filtroStatus">
+                                            <option value="">Todos</option>
+                                            <option value="Disponível">Disponível</option>
+                                            <option value="Em rota">Em rota</option>
+                                            <option value="Férias">Férias</option>
+                                            <option value="Afastado">Afastado</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="filtroCategoria" class="form-label">Categoria CNH</label>
+                                        <select class="form-select" id="filtroCategoria">
+                                            <option value="">Todas</option>
+                                            <option value="A">A</option>
+                                            <option value="B">B</option>
+                                            <option value="C">C</option>
+                                            <option value="D">D</option>
+                                            <option value="E">E</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="filtroBusca" class="form-label">Busca</label>
+                                        <input type="text" class="form-control" id="filtroBusca" placeholder="Nome ou CPF">
+                                    </div>
+                                    <div class="col-md-3 d-flex align-items-end">
+                                        <button class="btn btn-primary w-100" id="btnFiltrar">
+                                            <i class="fas fa-search me-1"></i> Filtrar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabela de Motoristas -->
+                <div class="table-container bg-white p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>CPF</th>
+                                    <th>Telefone</th>
+                                    <th>CNH</th>
+                                    <th>Categoria</th>
+                                    <th>Validade CNH</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaMotoristas">
+                                <!-- Dados serão carregados via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Paginação -->
+                <nav aria-label="Navegação de página" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Próximo</a>
+                        </li>
+                    </ul>
+                </nav>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal Novo Motorista -->
+    <div class="modal fade" id="modalNovoMotorista" tabindex="-1" aria-labelledby="modalNovoMotoristaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalNovoMotoristaLabel">Cadastrar Novo Motorista</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formNovoMotorista">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="nomeMotorista" class="form-label">Nome Completo</label>
+                                <input type="text" class="form-control" id="nomeMotorista" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cpfMotorista" class="form-label">CPF</label>
+                                <input type="text" class="form-control" id="cpfMotorista" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="dataNascimento" class="form-label">Data de Nascimento</label>
+                                <input type="date" class="form-control" id="dataNascimento" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="telefoneMotorista" class="form-label">Telefone</label>
+                                <input type="text" class="form-control" id="telefoneMotorista" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="enderecoMotorista" class="form-label">Endereço</label>
+                                <input type="text" class="form-control" id="enderecoMotorista" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="numeroCNH" class="form-label">Número CNH</label>
+                                <input type="text" class="form-control" id="numeroCNH" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="categoriaCNH" class="form-label">Categoria CNH</label>
+                                <select class="form-select" id="categoriaCNH" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="E">E</option>
+                                    <option value="AB">AB</option>
+                                    <option value="AC">AC</option>
+                                    <option value="AD">AD</option>
+                                    <option value="AE">AE</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="validadeCNH" class="form-label">Validade CNH</label>
+                                <input type="date" class="form-control" id="validadeCNH" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="dataAdmissao" class="form-label">Data de Admissão</label>
+                                <input type="date" class="form-control" id="dataAdmissao" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="statusMotorista" class="form-label">Status</label>
+                                <select class="form-select" id="statusMotorista" required>
+                                    <option value="Disponível">Disponível</option>
+                                    <option value="Em rota">Em rota</option>
+                                    <option value="Férias">Férias</option>
+                                    <option value="Afastado">Afastado</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="observacoesMotorista" class="form-label">Observações</label>
+                                <textarea class="form-control" id="observacoesMotorista" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnSalvarMotorista">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript Personalizado -->
+    <script src="js/main.js"></script>
+    <script src="js/motoristas.js"></script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema de Logística</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navbar para Mobile (será adicionada via JS se necessário) -->
+    
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar / Menu Lateral -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <h3 class="text-white"><i class="fas fa-truck me-2"></i>LogiTech</h3>
+                        <p class="text-white-50">Sistema Logístico</p>
+                    </div>
+                    <hr class="text-white-50">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="dashboard.html">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="veiculos.html">
+                                <i class="fas fa-truck"></i> Veículos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="rotas.html">
+                                <i class="fas fa-route"></i> Rotas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="entregas.html">
+                                <i class="fas fa-box"></i> Entregas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="motoristas.html">
+                                <i class="fas fa-user"></i> Motoristas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="relatorios.html">
+                                <i class="fas fa-chart-bar"></i> Relatórios
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="configuracoes.html">
+                                <i class="fas fa-cog"></i> Configurações
+                            </a>
+                        </li>
+                    </ul>
+                    <hr class="text-white-50">
+                    <div class="px-3 mt-4">
+                        <a href="index.html" class="btn btn-danger w-100" id="logoutButton">
+                            <i class="fas fa-sign-out-alt me-2"></i> Sair
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Conteúdo Principal -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Compartilhar</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Exportar</button>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                            <i class="fas fa-calendar me-1"></i> Esta semana
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cards de Resumo -->
+                <div class="row mb-4">
+                    <div class="col-md-6 col-lg-3 mb-3">
+                        <div class="card dashboard-card bg-primary text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title">Veículos</h6>
+                                        <h2 class="mb-0" id="totalVeiculos">0</h2>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-truck fa-3x opacity-50"></i>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <span id="veiculosDisponiveis">0</span> disponíveis
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 mb-3">
+                        <div class="card dashboard-card bg-success text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title">Rotas</h6>
+                                        <h2 class="mb-0" id="totalRotas">0</h2>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-route fa-3x opacity-50"></i>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <span id="rotasAndamento">0</span> em andamento
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 mb-3">
+                        <div class="card dashboard-card bg-warning text-dark">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title">Entregas</h6>
+                                        <h2 class="mb-0" id="totalEntregas">0</h2>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-box fa-3x opacity-50"></i>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <span id="entregasTransito">0</span> em trânsito
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 mb-3">
+                        <div class="card dashboard-card bg-info text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title">Motoristas</h6>
+                                        <h2 class="mb-0" id="totalMotoristas">0</h2>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-user fa-3x opacity-50"></i>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <span id="motoristasDisponiveis">0</span> disponíveis
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráficos e Tabelas -->
+                <div class="row mb-4">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h5 class="card-title">Status das Entregas</h5>
+                            </div>
+                            <div class="card-body d-flex justify-content-center align-items-center">
+                                <canvas id="entregasChart" style="max-height: 300px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h5 class="card-title">Status dos Veículos</h5>
+                            </div>
+                            <div class="card-body d-flex justify-content-center align-items-center">
+                                <canvas id="veiculosChart" style="max-height: 300px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="card-title">Entregas Recentes</h5>
+                                <a href="entregas.html" class="btn btn-sm btn-primary">Ver todas</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Código</th>
+                                                <th>Destinatário</th>
+                                                <th>Cidade/UF</th>
+                                                <th>Data Prevista</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="entregasRecentes">
+                                            <!-- Dados serão carregados via JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="card-title">Rotas Ativas</h5>
+                                <a href="rotas.html" class="btn btn-sm btn-primary">Ver todas</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Nome</th>
+                                                <th>Origem → Destino</th>
+                                                <th>Veículo</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="rotasAtivas">
+                                            <!-- Dados serão carregados via JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="card-title">Motoristas em Rota</h5>
+                                <a href="motoristas.html" class="btn btn-sm btn-primary">Ver todos</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Nome</th>
+                                                <th>Telefone</th>
+                                                <th>Rota Atual</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="motoristasEmRota">
+                                            <!-- Dados serão carregados via JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript Personalizado -->
+    <script src="js/main.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

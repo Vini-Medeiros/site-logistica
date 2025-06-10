@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - Sistema de Logística</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navbar para Mobile (será adicionada via JS se necessário) -->
+    
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar / Menu Lateral -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <h3 class="text-white"><i class="fas fa-truck me-2"></i>LogiTech</h3>
+                        <p class="text-white-50">Sistema Logístico</p>
+                    </div>
+                    <hr class="text-white-50">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="dashboard.html">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="veiculos.html">
+                                <i class="fas fa-truck"></i> Veículos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="rotas.html">
+                                <i class="fas fa-route"></i> Rotas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="entregas.html">
+                                <i class="fas fa-box"></i> Entregas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="motoristas.html">
+                                <i class="fas fa-user"></i> Motoristas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="relatorios.html">
+                                <i class="fas fa-chart-bar"></i> Relatórios
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="configuracoes.html">
+                                <i class="fas fa-cog"></i> Configurações
+                            </a>
+                        </li>
+                    </ul>
+                    <hr class="text-white-50">
+                    <div class="px-3 mt-4">
+                        <a href="index.html" class="btn btn-danger w-100" id="logoutButton">
+                            <i class="fas fa-sign-out-alt me-2"></i> Sair
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Conteúdo Principal -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Configurações</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button type="button" class="btn btn-sm btn-primary" id="btnSalvarConfiguracoes">
+                            <i class="fas fa-save me-1"></i> Salvar Alterações
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Abas de Configuração -->
+                <ul class="nav nav-tabs mb-4" id="configTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="perfil-tab" data-bs-toggle="tab" data-bs-target="#perfil" type="button" role="tab" aria-controls="perfil" aria-selected="true">
+                            <i class="fas fa-user-circle me-1"></i> Perfil
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="empresa-tab" data-bs-toggle="tab" data-bs-target="#empresa" type="button" role="tab" aria-controls="empresa" aria-selected="false">
+                            <i class="fas fa-building me-1"></i> Empresa
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="sistema-tab" data-bs-toggle="tab" data-bs-target="#sistema" type="button" role="tab" aria-controls="sistema" aria-selected="false">
+                            <i class="fas fa-sliders-h me-1"></i> Sistema
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="usuarios-tab" data-bs-toggle="tab" data-bs-target="#usuarios" type="button" role="tab" aria-controls="usuarios" aria-selected="false">
+                            <i class="fas fa-users me-1"></i> Usuários
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="notificacoes-tab" data-bs-toggle="tab" data-bs-target="#notificacoes" type="button" role="tab" aria-controls="notificacoes" aria-selected="false">
+                            <i class="fas fa-bell me-1"></i> Notificações
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="backup-tab" data-bs-toggle="tab" data-bs-target="#backup" type="button" role="tab" aria-controls="backup" aria-selected="false">
+                            <i class="fas fa-database me-1"></i> Backup
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Conteúdo das Abas -->
+                <div class="tab-content" id="configTabsContent">
+                    <!-- Aba de Perfil -->
+                    <div class="tab-pane fade show active" id="perfil" role="tabpanel" aria-labelledby="perfil-tab">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3 text-center mb-4">
+                                        <div class="avatar-container mb-3">
+                                            <img src="https://via.placeholder.com/150" alt="Foto de Perfil" class="rounded-circle img-thumbnail" style="width: 150px; height: 150px;">
+                                            <div class="avatar-overlay">
+                                                <button class="btn btn-sm btn-light" id="btnAlterarFoto">
+                                                    <i class="fas fa-camera"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <h5 id="nomeUsuarioAtual">Administrador</h5>
+                                        <p class="text-muted" id="cargoUsuarioAtual">Gerente</p>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <form id="formPerfil">
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="nomeCompleto" class="form-label">Nome Completo</label>
+                                                    <input type="text" class="form-control" id="nomeCompleto" value="Administrador do Sistema">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="email" class="form-label">E-mail</label>
+                                                    <input type="email" class="form-control" id="email" value="admin@logitech.com.br">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="telefone" class="form-label">Telefone</label>
+                                                    <input type="tel" class="form-control" id="telefone" value="(11) 99999-9999">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="cargo" class="form-label">Cargo</label>
+                                                    <input type="text" class="form-control" id="cargo" value="Gerente">
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <h5>Alterar Senha</h5>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label for="senhaAtual" class="form-label">Senha Atual</label>
+                                                    <input type="password" class="form-control" id="senhaAtual">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="novaSenha" class="form-label">Nova Senha</label>
+                                                    <input type="password" class="form-control" id="novaSenha">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
+                                                    <input type="password" class="form-control" id="confirmarSenha">
+                                                </div>
+                                            </div>
+                                            <div class="text-end">
+                                                <button type="button" class="btn btn-primary" id="btnSalvarPerfil">Salvar Alterações</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aba de Empresa -->
+                    <div class="tab-pane fade" id="empresa" role="tabpanel" aria-labelledby="empresa-tab">
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="formEmpresa">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="nomeEmpresa" class="form-label">Nome da Empresa</label>
+                                            <input type="text" class="form-control" id="nomeEmpresa" value="LogiTech Transportes Ltda.">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="cnpj" class="form-label">CNPJ</label>
+                                            <input type="text" class="form-control" id="cnpj" value="12.345.678/0001-90">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="telefoneEmpresa" class="form-label">Telefone</label>
+                                            <input type="tel" class="form-control" id="telefoneEmpresa" value="(11) 3333-4444">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="emailEmpresa" class="form-label">E-mail</label>
+                                            <input type="email" class="form-control" id="emailEmpresa" value="contato@logitech.com.br">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-8">
+                                            <label for="endereco" class="form-label">Endereço</label>
+                                            <input type="text" class="form-control" id="endereco" value="Av. Paulista, 1000">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="cep" class="form-label">CEP</label>
+                                            <input type="text" class="form-control" id="cep" value="01310-100">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-5">
+                                            <label for="cidade" class="form-label">Cidade</label>
+                                            <input type="text" class="form-control" id="cidade" value="São Paulo">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="estado" class="form-label">Estado</label>
+                                            <select class="form-select" id="estado">
+                                                <option value="AC">AC</option>
+                                                <option value="AL">AL</option>
+                                                <option value="AP">AP</option>
+                                                <option value="AM">AM</option>
+                                                <option value="BA">BA</option>
+                                                <option value="CE">CE</option>
+                                                <option value="DF">DF</option>
+                                                <option value="ES">ES</option>
+                                                <option value="GO">GO</option>
+                                                <option value="MA">MA</option>
+                                                <option value="MT">MT</option>
+                                                <option value="MS">MS</option>
+                                                <option value="MG">MG</option>
+                                                <option value="PA">PA</option>
+                                                <option value="PB">PB</option>
+                                                <option value="PR">PR</option>
+                                                <option value="PE">PE</option>
+                                                <option value="PI">PI</option>
+                                                <option value="RJ">RJ</option>
+                                                <option value="RN">RN</option>
+                                                <option value="RS">RS</option>
+                                                <option value="RO">RO</option>
+                                                <option value="RR">RR</option>
+                                                <option value="SC">SC</option>
+                                                <option value="SP" selected>SP</option>
+                                                <option value="SE">SE</option>
+                                                <option value="TO">TO</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="website" class="form-label">Website</label>
+                                            <input type="url" class="form-control" id="website" value="https://www.logitech.com.br">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <label for="logoEmpresa" class="form-label">Logo da Empresa</label>
+                                            <div class="input-group">
+                                                <input type="file" class="form-control" id="logoEmpresa">
+                                                <button class="btn btn-outline-secondary" type="button" id="btnRemoverLogo">Remover</button>
+                                            </div>
+                                            <div class="form-text">Formatos aceitos: JPG, PNG. Tamanho máximo: 2MB.</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-end">
+                                        <button type="button" class="btn btn-primary" id="btnSalvarEmpresa">Salvar Alterações</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aba de Sistema -->
+                    <div class="tab-pane fade" id="sistema" role="tabpanel" aria-labelledby="sistema-tab">
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="formSistema">
+                                    <h5>Aparência</h5>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="tema" class="form-label">Tema</label>
+                                            <select class="form-select" id="tema">
+                                                <option value="claro" selected>Claro</option>
+                                                <option value="escuro">Escuro</option>
+                                                <option value="sistema">Usar configuração do sistema</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="corPrimaria" class="form-label">Cor Primária</label>
+                                            <input type="color" class="form-control form-control-color" id="corPrimaria" value="#0d6efd" title="Escolha a cor primária">
+                                        </div>
+                                    </div>
+                                    
+                                    <hr>
+                                    <h5>Preferências</h5>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="idioma" class="form-label">Idioma</label>
+                                            <select class="form-select" id="idioma">
+                                                <option value="pt-BR" selected>Português (Brasil)</option>
+                                                <option value="en-US">English (United States)</option>
+                                                <option value="es-ES">Español</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="fusoHorario" class="form-label">Fuso Horário</label>
+                                            <select class="form-select" id="fusoHorario">
+                                                <option value="America/Sao_Paulo" selected>Brasília (GMT-3)</option>
+                                                <option value="America/Manaus">Manaus (GMT-4)</option>
+                                                <option value="America/Rio_Branco">Rio Branco (GMT-5)</option>
+                                                <option value="America/Noronha">Fernando de Noronha (GMT-2)</option>
+                                                <option value="UTC">UTC</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label for="formatoData" class="form-label">Formato de Data</label>
+                                            <select class="form-select" id="formatoData">
+                                                <option value="DD/MM/YYYY" selected>DD/MM/YYYY</option>
+                                                <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                                                <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="formatoMoeda" class="form-label">Formato de Moeda</label>
+                                            <select class="form-select" id="formatoMoeda">
+                                                <option value="BRL" selected>Real (R$)</option>
+                                                <option value="USD">Dólar (US$)</option>
+                                                <option value="EUR">Euro (€)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <hr>
+                                    <h5>Segurança</h5>
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="autenticacaoDoisFatores">
+                                            <label class="form-check-label" for="autenticacaoDoisFatores">Ativar autenticação de dois fatores</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="tempoSessao" class="form-label">Tempo de Sessão (minutos)</label>
+                                        <input type="number" class="form-control" id="tempoSessao" value="30" min="5" max="120">
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="registroAtividades" checked>
+                                            <label class="form-check-label" for="registroAtividades">Registrar atividades do usuário</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <hr>
+                                    <h5>Armazenamento</h5>
+                                    <div class="mb-3">
+                                        <label for="tipoArmazenamento" class="form-label">Tipo de Armazenamento</label>
+                                        <select class="form-select" id="tipoArmazenamento">
+                                            <option value="local" selected>Local (localStorage)</option>
+                                            <option value="servidor">Servidor (Simulado)</option>
+                                            <option value="nuvem">Nuvem (Simulado)</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="limparCacheAoSair">
+                                            <label class="form-check-label" for="limparCacheAoSair">Limpar cache ao sair</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-end">
+                                        <button type="button" class="btn btn-secondary" id="btnRestaurarPadrao">Restaurar Padrão</button>
+                                        <button type="button" class="btn btn-primary" id="btnSalvarSistema">Salvar Alterações</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aba de Usuários -->
+                    <div class="tab-pane fade" id="usuarios" role="tabpanel" aria-labelledby="usuarios-tab">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="card-title">Gerenciar Usuários</h5>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNovoUsuario">
+                                        <i class="fas fa-user-plus me-1"></i> Novo Usuário
+                                    </button>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Nome</th>
+                                                <th>E-mail</th>
+                                                <th>Cargo</th>
+                                                <th>Perfil</th>
+                                                <th>Status</th>
+                                                <th>Último Acesso</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tabelaUsuarios">
+                                            <tr>
+                                                <td>Administrador</td>
+                                                <td>admin@logitech.com.br</td>
+                                                <td>Gerente</td>
+                                                <td><span class="badge bg-danger">Administrador</span></td>
+                                                <td><span class="badge bg-success">Ativo</span></td>
+                                                <td>Agora</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary me-1" title="Editar">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger" title="Excluir" disabled>
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>João Silva</td>
+                                                <td>joao@logitech.com.br</td>
+                                                <td>Motorista</td>
+                                                <td><span class="badge bg-primary">Operacional</span></td>
+                                                <td><span class="badge bg-success">Ativo</span></td>
+                                                <td>Ontem</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary me-1" title="Editar">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger" title="Excluir">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Maria Oliveira</td>
+                                                <td>maria@logitech.com.br</td>
+                                                <td>Analista</td>
+                                                <td><span class="badge bg-info">Gerencial</span></td>
+                                                <td><span class="badge bg-success">Ativo</span></td>
+                                                <td>Há 3 dias</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary me-1" title="Editar">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger" title="Excluir">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <hr>
+                                <h5>Perfis de Acesso</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Perfil</th>
+                                                <th>Descrição</th>
+                                                <th>Permissões</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Administrador</td>
+                                                <td>Acesso total ao sistema</td>
+                                                <td>Todas as permissões</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary me-1" title="Editar">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Gerencial</td>
+                                                <td>Acesso a relatórios e gestão</td>
+                                                <td>Visualizar, Editar, Relatórios</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary me-1" title="Editar">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger" title="Excluir">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Operacional</td>
+                                                <td>Acesso básico para operações</td>
+                                                <td>Visualizar, Editar (limitado)</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary me-1" title="Editar">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger" title="Excluir">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aba de Notificações -->
+                    <div class="tab-pane fade" id="notificacoes" role="tabpanel" aria-labelledby="notificacoes-tab">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>Configurações de Notificações</h5>
+                                <form id="formNotificacoes">
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="notificacoesAtivadas" checked>
+                                            <label class="form-check-label" for="notificacoesAtivadas">Ativar notificações</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <h6 class="mt-4">Notificações do Sistema</h6>
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="notifNovasEntregas" checked>
+                                            <label class="form-check-label" for="notifNovasEntregas">Novas entregas</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="notifStatusEntregas" checked>
+                                            <label class="form-check-label" for="notifStatusEntregas">Alterações de status de entregas</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="notifManutencaoVeiculos" checked>
+                                            <label class="form-check-label" for="notifManutencaoVeiculos">Alertas de manutenção de veículos</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="notifAtrasos" checked>
+                                            <label class="form-check-label" for="notifAtrasos">Alertas de atrasos</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <h6 class="mt-4">Canais de Notificação</h6>
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="notifSistema" checked>
+                                            <label class="form-check-label" for="notifSistema">Notificações no sistema</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="notifEmail" checked>
+                                            <label class="form-check-label" for="notifEmail">E-mail</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="notifSMS">
+                                            <label class="form-check-label" for="notifSMS">SMS</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <h6 class="mt-4">Frequência de Resumos</h6>
+                                    <div class="mb-3">
+                                        <label for="frequenciaResumos" class="form-label">Receber resumos</label>
+                                        <select class="form-select" id="frequenciaResumos">
+                                            <option value="diario">Diariamente</option>
+                                            <option value="semanal" selected>Semanalmente</option>
+                                            <option value="quinzenal">Quinzenalmente</option>
+                                            <option value="mensal">Mensalmente</option>
+                                            <option value="nunca">Nunca</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="text-end">
+                                        <button type="button" class="btn btn-primary" id="btnSalvarNotificacoes">Salvar Alterações</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aba de Backup -->
+                    <div class="tab-pane fade" id="backup" role="tabpanel" aria-labelledby="backup-tab">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>Backup e Restauração</h5>
+                                
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i> Os backups são armazenados localmente no navegador. Para uma solução completa, seria necessário implementar um servidor de armazenamento.
+                                </div>
+                                
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="card h-100">
+                                            <div class="card-header">
+                                                <h6 class="mb-0">Backup de Dados</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>Faça backup dos dados do sistema para restauração futura.</p>
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="backupVeiculos" checked>
+                                                        <label class="form-check-label" for="backupVeiculos">Veículos</label>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="backupRotas" checked>
+                                                        <label class="form-check-label" for="backupRotas">Rotas</label>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="backupEntregas" checked>
+                                                        <label class="form-check-label" for="backupEntregas">Entregas</label>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="backupMotoristas" checked>
+                                                        <label class="form-check-label" for="backupMotoristas">Motoristas</label>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="backupConfiguracoes" checked>
+                                                        <label class="form-check-label" for="backupConfiguracoes">Configurações</label>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="btn btn-primary w-100" id="btnGerarBackup">
+                                                    <i class="fas fa-download me-1"></i> Gerar Backup
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card h-100">
+                                            <div class="card-header">
+                                                <h6 class="mb-0">Restaurar Dados</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>Restaure dados a partir de um arquivo de backup.</p>
+                                                <div class="mb-3">
+                                                    <label for="arquivoBackup" class="form-label">Arquivo de Backup</label>
+                                                    <input class="form-control" type="file" id="arquivoBackup">
+                                                </div>
+                                                <div class="alert alert-warning">
+                                                    <i class="fas fa-exclamation-triangle me-2"></i> A restauração substituirá todos os dados atuais. Certifique-se de fazer um backup antes de prosseguir.
+                                                </div>
+                                                <button type="button" class="btn btn-warning w-100" id="btnRestaurarBackup">
+                                                    <i class="fas fa-upload me-1"></i> Restaurar Backup
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h5>Backups Automáticos</h5>
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="backupAutomatico" checked>
+                                        <label class="form-check-label" for="backupAutomatico">Ativar backups automáticos</label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="frequenciaBackup" class="form-label">Frequência de backup</label>
+                                    <select class="form-select" id="frequenciaBackup">
+                                        <option value="diario">Diariamente</option>
+                                        <option value="semanal" selected>Semanalmente</option>
+                                        <option value="quinzenal">Quinzenalmente</option>
+                                        <option value="mensal">Mensalmente</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="retencaoBackup" class="form-label">Retenção de backups</label>
+                                    <select class="form-select" id="retencaoBackup">
+                                        <option value="3">Últimos 3 backups</option>
+                                        <option value="5" selected>Últimos 5 backups</option>
+                                        <option value="10">Últimos 10 backups</option>
+                                        <option value="0">Manter todos</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="text-end">
+                                    <button type="button" class="btn btn-primary" id="btnSalvarBackup">Salvar Configurações</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal de Novo Usuário -->
+    <div class="modal fade" id="modalNovoUsuario" tabindex="-1" aria-labelledby="modalNovoUsuarioLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalNovoUsuarioLabel">Novo Usuário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formNovoUsuario">
+                        <div class="mb-3">
+                            <label for="novoNome" class="form-label">Nome Completo</label>
+                            <input type="text" class="form-control" id="novoNome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="novoEmail" class="form-label">E-mail</label>
+                            <input type="email" class="form-control" id="novoEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="novoCargo" class="form-label">Cargo</label>
+                            <input type="text" class="form-control" id="novoCargo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="novoPerfil" class="form-label">Perfil</label>
+                            <select class="form-select" id="novoPerfil" required>
+                                <option value="">Selecione...</option>
+                                <option value="administrador">Administrador</option>
+                                <option value="gerencial">Gerencial</option>
+                                <option value="operacional">Operacional</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="novaSenha" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="novaSenha" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmarNovaSenha" class="form-label">Confirmar Senha</label>
+                            <input type="password" class="form-control" id="confirmarNovaSenha" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnSalvarNovoUsuario">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript Personalizado -->
+    <script src="js/main.js"></script>
+    <script src="js/configuracoes.js"></script>
+</body>
+</html>
